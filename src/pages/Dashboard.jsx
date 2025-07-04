@@ -9,8 +9,9 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [filter, setFilter] = useState({ priority: "", status: "" });
   const tasks = useSelector((state) => state.task.tasks);
+
   useEffect(() => {
-    if (tasks.length === 0) {
+    if (tasks.length === 0 && !localStorage.getItem("tasks")) {
       const demoTasks = [
         {
           title: "Design UI",

@@ -8,11 +8,13 @@ import AddTask from "./pages/AddTask";
 
 function App() {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.task);
+  const { isLoggedIn, loaded } = useSelector((state) => state.task);
 
   useEffect(() => {
     dispatch(loadTask());
   }, [dispatch]);
+
+  if (!loaded) return <div className="text-center mt-5">Loading...</div>;
 
   return (
     <BrowserRouter>

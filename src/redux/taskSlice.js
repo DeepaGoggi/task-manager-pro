@@ -4,28 +4,19 @@ const initialState = {
   isLoggedIn: false,
   username: "",
   tasks: [],
+  loaded: false,
 };
 
 const taskSlice = createSlice({
   name: "task",
-  initialState: {
-    tasks: [],
-    isLoggedIn: false,
-  },
+  initialState,
   reducers: {
-    loadTask: (state) => {
-      const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-      const loginStatus =
-        JSON.parse(localStorage.getItem("isLoggedIn")) || false;
-      state.tasks = storedTasks;
-      state.isLoggedIn = loginStatus;
-    },
-
     loadTask: (state) => {
       const saved = JSON.parse(localStorage.getItem("tasks")) || [];
       state.tasks = saved;
       const loginStatus = JSON.parse(localStorage.getItem("isLoggedIn"));
       state.isLoggedIn = loginStatus || false;
+      state.loaded = true;
     },
     setLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
