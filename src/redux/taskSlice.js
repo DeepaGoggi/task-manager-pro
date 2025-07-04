@@ -3,35 +3,44 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoggedIn: false,
   username: "",
+  tasks: [],
 };
 
-const authSlice = createSlice({
-  name: "auth",
-  initialState,
+const taskSlice = createSlice({
+  name: "task",
+  initialState: {
+    tasks: [],
+    isLoggedIn: false,
+  },
   reducers: {
-    setLoggedIn(state, action) {
-      state.isLoggedIn = true;
-      state.username = action.payload;
-
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", action.payload);
+    loadTask: (state) => {
+      const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      const loginStatus =
+        JSON.parse(localStorage.getItem("isLoggedIn")) || false;
+      state.tasks = storedTasks;
+      state.isLoggedIn = loginStatus;
     },
-    loadAuth(state) {
-      const login = localStorage.getItem("isLoggedIn");
-      const user = localStorage.getItem("username");
 
-      if (login === "true") {
-        state.isLoggedIn = true;
-        state.username = user;
-      }
+    loadTask: (state) => {
+      const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+      state.tasks = saved;
+      const loginStatus = JSON.parse(localStorage.getItem("isLoggedIn"));
+      state.isLoggedIn = loginStatus || false;
     },
-    logout(state) {
+    setLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
+      localStorage.setItem("isLoggedIn", JSON.stringify(action.payload));
+    },
+    logout: (state) => {
       state.isLoggedIn = false;
-      state.username = "";
-      localStorage.clear();
+      localStorage.removeItem("isLoggedIn");
+    },
+    addTask: (state, action) => {
+      state.tasks.push({ id: Date.now(), ...action.payload });
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
     },
   },
 });
 
-export const { setLoggedIn, loadAuth, logout } = authSlice.actions;
-export default authSlice.reducer;
+export const { setLoggedIn, loadTask, logout, addTask } = taskSlice.actions;
+export default taskSlice.reducer;

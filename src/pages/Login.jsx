@@ -16,6 +16,8 @@ function LoginPage() {
     if (usernameOrEmail.trim() !== "" && password.trim() !== "") {
       dispatch(setLoggedIn(usernameOrEmail));
       navigate("/dashboard");
+    } else {
+      alert("Please enter username/email and password.");
     }
   }
 

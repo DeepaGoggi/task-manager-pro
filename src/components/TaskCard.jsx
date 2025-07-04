@@ -8,8 +8,16 @@ const TaskCard = ({ task }) => (
       <Card.Text>
         <strong>Priority:</strong> {task.priority}
         <br />
-        <strong>Deadline:</strong> {task.deadline}
+        <strong>Status:</strong> {task.status}
+        <br />
+        <strong>Deadline:</strong> {task.deadline || "N/A"}
       </Card.Text>
+      {task.description && (
+        <>
+          <hr />
+          <p>{task.description}</p>
+        </>
+      )}
     </Card.Body>
   </Card>
 );
