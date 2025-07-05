@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 const Sidebar = ({ onFilterChange }) => {
   const [priorityFilter, setPriorityFilter] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("");
   const [deadlineFilter, setDeadlineFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -16,7 +17,12 @@ const Sidebar = ({ onFilterChange }) => {
     setPriorityFilter(updated);
     onFilterChange("priority", updated);
   };
-
+  const handleStatusChange = (e) => {
+    const value = e.target.value;
+    setStatusFilter(value);
+    setStatusFilter(value);
+    onFilterChange("status", value);
+  };
   const handleDeadlineChange = (e) => {
     const value = e.target.value;
     setDeadlineFilter(value);
@@ -31,11 +37,15 @@ const Sidebar = ({ onFilterChange }) => {
 
   const resetFilters = () => {
     setPriorityFilter([]);
+    setStatusFilter("");
     setDeadlineFilter("");
     setSearchTerm("");
+    setStatusFilter("");
     onFilterChange("priority", []);
+    onFilterChange("status", "");
     onFilterChange("deadline", "");
     onFilterChange("search", "");
+    onFilterChange("status", "");
   };
 
   return (
@@ -63,8 +73,8 @@ const Sidebar = ({ onFilterChange }) => {
         <label>Status</label>
         <select
           className="form-select"
-          onChange={(e) => onFilterChange("status", e.target.value)}
-          defaultValue=""
+          value={statusFilter}
+          onChange={handleStatusChange}
         >
           <option value="">All</option>
           <option value="To Do">To Do</option>
