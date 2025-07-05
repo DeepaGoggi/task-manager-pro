@@ -2,17 +2,21 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadTask } from "./redux/taskSlice";
-import LoginPage from "./pages/Login";
+import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AddTask from "./pages/AddTask";
+import EditTask from "./pages/EditTask";
 
 function App() {
   const dispatch = useDispatch();
-  const { isLoggedIn, loaded } = useSelector((state) => state.task);
-
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const loaded = useSelector((state) => state.task.loaded);
   useEffect(() => {
     dispatch(loadTask());
   }, [dispatch]);
+  //   localStorage.removeItem("isLoggedIn");
+  //   localStorage.removeItem("username");
+  // }, []);
 
   if (!loaded) return <div className="text-center mt-5">Loading...</div>;
 
@@ -23,7 +27,7 @@ function App() {
           path="/"
           element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />}
         />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
           element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
@@ -31,6 +35,10 @@ function App() {
         <Route
           path="/add"
           element={isLoggedIn ? <AddTask /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/edit/:id"
+          element={isLoggedIn ? <EditTask /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>

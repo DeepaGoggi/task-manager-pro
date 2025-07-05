@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../redux/taskSlice";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function AddTask() {
   const dispatch = useDispatch();
@@ -86,12 +88,21 @@ function AddTask() {
 
         <div className="mb-3">
           <label className="form-label">Deadline</label>
-          <input
-            type="date"
+          <DatePicker
+            selected={task.deadline ? new Date(task.deadline) : null}
+            onChange={(date) =>
+              setTask((prev) => ({
+                ...prev,
+                deadline: date.toISOString(),
+              }))
+            }
+            showTimeSelect
+            dateFormat="Pp"
+            timeFormat="HH:mm"
+            timeIntervals={15}
             className="form-control"
-            name="deadline"
-            value={task.deadline}
-            onChange={handleChange}
+            placeholderText="Select deadline"
+            minDate={new Date()}
           />
         </div>
 

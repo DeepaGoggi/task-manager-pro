@@ -14,39 +14,44 @@ function Dashboard() {
     if (tasks.length === 0 && !localStorage.getItem("tasks")) {
       const demoTasks = [
         {
+          id: 1,
           title: "Design UI",
           description: "Create initial wireframes and color scheme.",
           priority: "High",
           status: "To Do",
-          deadline: "2025-07-10",
+          deadline: "2025-07-12T16:45:00+05:30",
         },
         {
+          id: 2,
           title: "Setup Redux",
           description: "Configure Redux store and slices.",
           priority: "Medium",
           status: "In Progress",
-          deadline: "2025-07-12",
+          deadline: "2025-07-12T16:45:00+05:30",
         },
         {
+          id: 3,
           title: "Fix Login Bug",
           description: "Login page not redirecting after auth.",
           priority: "High",
           status: "To Do",
-          deadline: "2025-07-09",
+          deadline: "2025-07-09T05:00:00+05:30",
         },
         {
+          id: 4,
           title: "Testing",
           description: "Write unit tests for task components.",
           priority: "Low",
           status: "Completed",
-          deadline: "2025-07-05",
+          deadline: "2025-07-05T09:15:00+05:30",
         },
         {
+          id: 5,
           title: "Deploy to Vercel",
           description: "Deploy the app and test routing.",
           priority: "Medium",
           status: "In Progress",
-          deadline: "2025-07-15",
+          deadline: "2025-07-15T18:00:00+05:30",
         },
       ];
 

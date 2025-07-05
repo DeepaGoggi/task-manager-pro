@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLoggedIn } from "../redux/taskSlice";
+import { setLoggedIn } from "../redux/authSlice";
 import { Container, Form, Button, Card } from "react-bootstrap";
 
 function LoginPage() {

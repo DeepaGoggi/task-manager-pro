@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/taskSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const username = useSelector((state) => state.auth.username);
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
