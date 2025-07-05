@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AddTask from "./pages/AddTask";
 import EditTask from "./pages/EditTask";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,9 +15,6 @@ function App() {
   useEffect(() => {
     dispatch(loadTask());
   }, [dispatch]);
-  //   localStorage.removeItem("isLoggedIn");
-  //   localStorage.removeItem("username");
-  // }, []);
 
   if (!loaded) return <div className="text-center mt-5">Loading...</div>;
 
@@ -40,7 +38,7 @@ function App() {
           path="/edit/:id"
           element={isLoggedIn ? <EditTask /> : <Navigate to="/login" />}
         />
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import Header from "../components/Header";
 import TaskCard from "../components/TaskCard";
-import Sidebar from "../components/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../redux/taskSlice";
+import Sidebar from "../components/Sidebar";
+
 function Dashboard() {
   const dispatch = useDispatch();
-  const [filter, setFilter] = useState({ priority: "", status: "" });
+  const [filter, setFilter] = useState({
+    priority: [],
+    status: "",
+    deadline: "",
+    search: "",
+  });
   const tasks = useSelector((state) => state.task.tasks);
 
   useEffect(() => {
@@ -63,14 +69,34 @@ function Dashboard() {
     setFilter((prev) => ({ ...prev, [type]: value }));
   };
 
-  const filteredTasks = (status) =>
-    tasks.filter(
-      (task) =>
-        task.status === status &&
-        (filter.priority === "" || task.priority === filter.priority) &&
-        (filter.status === "" || task.status === filter.status)
-    );
+  const filteredTasks = (status) => {
+    return tasks.filter((task) => {
+      const taskDeadline = new Date(task.deadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const matchesStatus = task.status === status;
+      const matchesPriority =
+        filter.priority.length === 0 || filter.priority.includes(task.priority);
+      const matchesDeadline =
+        filter.deadline === "" ||
+        (filter.deadline === "before" && taskDeadline < today) ||
+        (filter.deadline === "after" && taskDeadline >= today);
+      const matchesSearch =
+        filter.search === "" ||
+        task.title.toLowerCase().includes(filter.search.toLowerCase());
 
+      const matchesStatusFilter =
+        filter.status === "" || task.status === filter.status;
+
+      return (
+        matchesStatus &&
+        matchesStatusFilter &&
+        matchesPriority &&
+        matchesDeadline &&
+        matchesSearch
+      );
+    });
+  };
   return (
     <>
       <Header />
